@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotspot Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Style */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #00c853;
+            color: #555;
+        }
+
+        /* Centered Login Card */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120vh;
+        }
+
+        .card {
+            background: #fff;
+            width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: url('1.png') no-repeat center center / cover;
+            border: 3px solid #00c853;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #00c853;
+        }
+
+        /* Form Style */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #00c853;
+        }
+
+        button {
+            background: #00c853;
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #00a44c;
+        }
+
+        table {
+            margin: 15px auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #00c853;
+            color: white;
+        }
+
+        table td {
+            background-color: #f9f9f9;
+        }
+
+
+        .footer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 400px) {
+            .card {
+                width: 90%;
+            }
+        }
+    </style>
+
+    <script type="text/javascript" src="/md5.js"></script>
+    <script type="text/javascript">
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <!-- Hidden Form for MD5 Encryption -->
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+    $(endif)
+
+    <!-- Login Card -->
+    <div class="container">
+        <div class="card">
+            <div class="logo"></div>
+            <h1>Selamat Datang di UBL NET</h1>
+            <p>Silakan login untuk mengakses internet</p>
+            <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
+                
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" value="$(username)" required />
+
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required />
+                
+                <button type="submit">Login</button>
+            </form>
+
+            <table>
+                <tr>
+                    <th>Paket</th>
+                    <th>Harga</th>
+                </tr>
+                <tr>
+                    <td>1 Hari</td>
+                    <td>Rp. 3.000</td>
+                </tr>
+                <tr>
+                    <td>7 Hari</td>
+                    <td>Rp. 20.000</td>
+                </tr>
+                <tr>
+                    <td>30 Hari</td>
+                    <td>Rp. 60.000</td>
+                </tr>
+            </table>
+    
+            <!-- Footer -->
+            <div class="footer">Made with 🛜 by Akbil</div>
+            <div class="footer">
+                Powered by MikroTik RouterOS
+            </div>
+            $(if error)
+            <div style="color: #FF8080; font-size: 12px;">$(error)</div>
+            $(endif)
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById('username').focus();
+    </script>
+</body>
+</html>
